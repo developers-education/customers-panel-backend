@@ -6,7 +6,7 @@ import {
 } from '@/infrastructure/web-server/types/shared';
 import { IChainHandler } from '@/infrastructure/web-server/types/chain-handler.interface';
 import { ZodType } from 'zod';
-import type { oas31 } from 'zod-openapi/lib-types/openapi3-ts/dist';
+import type { oas31 } from 'zod-openapi';
 import { appDi } from '@/infrastructure/ioc-container';
 import { IControllersState } from '@/infrastructure/web-server/controllers-definition/types/controllers-state.interface';
 

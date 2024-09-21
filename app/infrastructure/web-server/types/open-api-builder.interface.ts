@@ -1,12 +1,14 @@
-import { InfoObject, OpenAPIObject } from 'zod-openapi/lib-types/openapi3-ts/dist/model/openapi31';
 import type { ZodType } from 'zod';
-import type { oas31 } from 'zod-openapi/lib-types/openapi3-ts/dist';
+import { createDocument, oas31, ZodOpenApiObject } from 'zod-openapi';
 
 export interface IOpenApi {
   build(): OpenAPIObject;
   setInfo(info: InfoObject): void;
   addPath(method: OpenApiMethod, path: string, params?: PathParams): void;
 }
+
+export type OpenAPIObject = ReturnType<typeof createDocument>;
+export type InfoObject = ZodOpenApiObject['info'];
 
 export type PathParams = {
   responses?: ResponseSpec[];

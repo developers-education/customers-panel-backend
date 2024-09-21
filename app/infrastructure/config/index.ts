@@ -6,9 +6,6 @@ export const config: IConfig = {
   webServer: {
     port: Number(process.env.WEB_SERVER_PORT),
   },
-  webSockets: {
-    port: Number(process.env.WS_SERVER_PORT),
-  },
   jwt: {
     secret: process.env.JWT_SECRET ?? '',
     accessToken: {

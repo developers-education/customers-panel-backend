@@ -3,9 +3,6 @@ export interface IConfig {
   webServer: {
     port: number;
   };
-  webSockets: {
-    port: number;
-  };
   jwt: {
     secret: string;
     accessToken: {

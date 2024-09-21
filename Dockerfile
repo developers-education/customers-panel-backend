@@ -2,16 +2,16 @@ FROM node:20.1
 
 WORKDIR app/
 
-RUN npm install -g pnpm
+RUN npm install -g npm
 
 ADD package.json .
-ADD pnpm-lock.yaml .
+ADD package-lock.json .
 
-RUN pnpm i
+RUN npm i
 
 ADD . .
 
 EXPOSE 4000
 EXPOSE 4001
 
-CMD pnpm run start
+CMD npm run start

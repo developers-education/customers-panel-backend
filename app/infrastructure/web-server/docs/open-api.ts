@@ -2,16 +2,12 @@ import { createDocument } from 'zod-openapi';
 import {
   IOpenApi,
   OpenApiMethod,
+  OpenAPIObject,
   PathParams,
   RequestBodySpec,
   ResponseSpec,
 } from '@/infrastructure/web-server/types/open-api-builder.interface';
-import { InfoObject, OpenAPIObject } from 'zod-openapi/lib-types/openapi3-ts/dist/model/openapi31';
-import {
-  ZodOpenApiObject,
-  ZodOpenApiOperationObject,
-  ZodOpenApiPathItemObject,
-} from 'zod-openapi/lib-types/create/document';
+import { ZodOpenApiObject, ZodOpenApiOperationObject, ZodOpenApiPathItemObject } from 'zod-openapi';
 import { ZodType } from 'zod';
 
 export class OpenApi implements IOpenApi {
@@ -29,7 +25,7 @@ export class OpenApi implements IOpenApi {
     return createDocument(this.spec);
   }
 
-  public setInfo(info: InfoObject): void {
+  public setInfo(info: ZodOpenApiObject['info']): void {
     this.spec.info = info;
   }
 
