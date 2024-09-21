@@ -55,6 +55,15 @@ export class ControllersState implements IControllersState {
     handlerDef.method = method;
   }
 
+  public setHandlerSummary(
+    controller: ControllerPrototype,
+    handler: Handler,
+    summary: string,
+  ): void {
+    const handlerDef = this.getOrInitHandlerDef(controller, handler);
+    handlerDef.openApiSummary = summary;
+  }
+
   public setHandlerPath(controller: ControllerPrototype, handler: Handler, path: string): void {
     const handlerDef = this.getOrInitHandlerDef(controller, handler);
     handlerDef.path = path;

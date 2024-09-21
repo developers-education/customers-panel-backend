@@ -34,17 +34,4 @@ export class UsersRepository implements IUsersRepository {
 
     return result ? new User(result) : null;
   }
-
-  async storeInvalidRefreshToken(token: string): Promise<void> {
-    await this.db.insertInto('invalidRefreshToken').values({ token }).returning('token').execute();
-  }
-
-  async isRefreshTokenUsed(token: string): Promise<boolean> {
-    const result = await this.db
-      .selectFrom('invalidRefreshToken')
-      .where('token', '=', token)
-      .select('token')
-      .executeTakeFirst();
-    return !!result;
-  }
 }

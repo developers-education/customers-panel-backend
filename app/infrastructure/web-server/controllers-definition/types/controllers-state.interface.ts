@@ -12,6 +12,7 @@ export interface IControllersState {
   setHandlerPath(controller: ControllerPrototype, handler: Handler, path: string): void;
   addHandlerChain(controller: ControllerPrototype, handler: Handler, chain: IChainHandler[]): void;
   setHandlerMethod(controller: ControllerPrototype, handler: Handler, method: HTTPMethod): void;
+  setHandlerSummary(controller: ControllerPrototype, handler: Handler, summary: string): void;
   setHandlerRequestBody(
     controller: ControllerPrototype,
     handler: Handler,
@@ -44,6 +45,7 @@ export type HandlerDef = {
   chain: IChainHandler[];
   method: HTTPMethod;
   openApiResponses: OpenApiResponse[];
+  openApiSummary?: string;
   openApiBody?: OpenApiBody;
   openApiParams?: ZodType;
   openApiQuery?: ZodType;

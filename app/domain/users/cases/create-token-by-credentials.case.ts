@@ -2,21 +2,21 @@ import { UserNotFoundError } from '@/domain/users/errors/user-not-found.error';
 import { UserWrongPasswordError } from '@/domain/users/errors/user-wrong-password.error';
 import { ICryptographyService } from '@/domain/cryptography/types/cryptography-service.interface';
 import { ILogger } from '@/infrastructure/logger/types/logger.interface';
-import { ICreateTokensByCredentialsCase } from '@/domain/users/types/create-tokens-by-credentials-case.interface';
+import { ICreateTokenByCredentialsCase } from '@/domain/users/types/create-token-by-credentials-case.interface';
 import { IUsersRepository } from '@/domain/users/types/users-repository.interface';
-import { TokenPair, UserCredentials } from '@/domain/users/types/shared';
-import { ICreateTokensCase } from '@/domain/users/types/create-tokens-case.interface';
+import { UserCredentials } from '@/domain/users/types/shared';
+import { ICreateAccessTokenCase } from '@/domain/users/types/create-access-token-case.interface';
 
-export class CreateTokensByCredentialsCase implements ICreateTokensByCredentialsCase {
+export class CreateTokenByCredentialsCase implements ICreateTokenByCredentialsCase {
   constructor(
     private readonly logger: ILogger,
     private readonly usersRepository: IUsersRepository,
     private readonly cryptographyService: ICryptographyService,
-    private readonly createTokensCase: ICreateTokensCase,
+    private readonly createAccessTokenCase: ICreateAccessTokenCase,
   ) {}
-  async execute(credentials: UserCredentials): Promise<TokenPair> {
+  async execute(credentials: UserCredentials): Promise<string> {
     const { login, password } = credentials;
-    this.logger.info('Starting tokens creating by user credentials', { login });
+    this.logger.info('Starting token creating by user credentials', { login });
 
     const user = await this.usersRepository.getUserByLogin(login);
     if (!user) {
@@ -29,10 +29,10 @@ export class CreateTokensByCredentialsCase implements ICreateTokensByCredentials
       throw new UserWrongPasswordError();
     }
 
-    const tokens = await this.createTokensCase.execute(user.id);
+    const token = await this.createAccessTokenCase.execute(user.id);
 
-    this.logger.info('Tokens were created by user credentials.', { user });
+    this.logger.info('Token was created by user credentials.', { user });
 
-    return tokens;
+    return token;
   }
 }

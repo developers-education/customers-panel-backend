@@ -13,6 +13,7 @@ export type InfoObject = ZodOpenApiObject['info'];
 export type PathParams = {
   responses?: ResponseSpec[];
   requestBody?: RequestBodySpec;
+  summary?: string;
   query?: ZodType;
   params?: ZodType;
   cookie?: ZodType;

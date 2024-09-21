@@ -37,6 +37,10 @@ export class OpenApi implements IOpenApi {
       params.responses.forEach((responseSpec) => this.addResponse(methodObj, responseSpec));
     }
 
+    if (params.summary) {
+      this.addSummary(methodObj, params.summary);
+    }
+
     if (params.requestBody) {
       this.addRequestBody(methodObj, params.requestBody);
     }
@@ -56,6 +60,10 @@ export class OpenApi implements IOpenApi {
     if (params.header) {
       this.addHeader(methodObj, params.header);
     }
+  }
+
+  private addSummary(methodObj: ZodOpenApiOperationObject, summary: string): void {
+    methodObj.summary = summary;
   }
 
   private addResponse(methodObj: ZodOpenApiOperationObject, responseSpec: ResponseSpec): void {

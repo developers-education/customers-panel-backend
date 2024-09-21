@@ -6,6 +6,7 @@ import { ILogger } from '@/infrastructure/logger/types/logger.interface';
 import { normalizeApiError } from '@/infrastructure/web-server/errors/normalize-api-error';
 import { IChainHandler } from '@/infrastructure/web-server/types/chain-handler.interface';
 import { IOpenApi } from '@/infrastructure/web-server/types/open-api-builder.interface';
+import { IConfig } from '@/infrastructure/config/types/config.interface';
 
 export class ControllerInitializer implements IControllerInitializer {
   constructor(
@@ -13,6 +14,7 @@ export class ControllerInitializer implements IControllerInitializer {
     private readonly logger: ILogger,
     private readonly controllersState: IControllersState,
     private readonly apiRouter: Router,
+    private readonly config: IConfig,
   ) {}
 
   public init(controller: Controller): this {
@@ -23,6 +25,8 @@ export class ControllerInitializer implements IControllerInitializer {
       );
       return this;
     }
+
+    this.openApi.setInfo(this.config.openApi);
 
     controllerDef.handlers.forEach((handlerDef) => {
       const fullPath = (controllerDef.prefix ?? '') + (handlerDef.path ?? '');
@@ -38,6 +42,7 @@ export class ControllerInitializer implements IControllerInitializer {
       this.openApi.addPath(method, fullPath, {
         responses: [...controllerDef.openApiResponses, ...handlerDef.openApiResponses],
         requestBody: handlerDef.openApiBody,
+        summary: handlerDef.openApiSummary,
         params: handlerDef.openApiParams,
         query: handlerDef.openApiQuery,
         cookie: handlerDef.openApiCookie,

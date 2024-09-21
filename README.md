@@ -16,19 +16,21 @@ Backend for customers panel application
     ```
 2. Provide environments.
 You can just copy content from `env/examples/app.env.example` to `env/run/app.env`
-3. Start application
-    ```shell
-    npm run start:dev
-    ```
-4. Run migrations
+3. Run migrations
    ```shell
    npm run app-database:migrations:sync
    ```
+4. Start application
+    ```shell
+    npm run start:dev
+    ```
+Open documentation to make sure that web server started
+http://localhost:4000/docs.
+
 
 ### For production
-1. Provide environment variables (see `env/examples`):
-    * `env/run/app.env`
-    * `env/run/app-database.env`
+1. Provide environments.
+   You can just copy content from `env/examples/app.env.example` to `env/run/app.env`
 2. Start app with services
     ```shell
     npm run compose:up

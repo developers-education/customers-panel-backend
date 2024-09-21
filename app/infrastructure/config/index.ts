@@ -9,19 +9,14 @@ export const config: IConfig = {
   jwt: {
     secret: process.env.JWT_SECRET ?? '',
     accessToken: {
-      expirationTime: '2h',
+      expirationTime: '30d',
     },
     refreshToken: {
       expirationTime: '30d',
     },
   },
-  database: {
-    app: {
-      user: process.env.POSTGRES_USER ?? '',
-      password: process.env.POSTGRES_PASSWORD ?? '',
-      db: process.env.POSTGRES_DB ?? '',
-      host: process.env.POSTGRES_HOST ?? '',
-      port: Number(process.env.POSTGRES_PORT),
-    },
+  openApi: {
+    title: 'Customers Panel',
+    version: '3.1.0',
   },
 };

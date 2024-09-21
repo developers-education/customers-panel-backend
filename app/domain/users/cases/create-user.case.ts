@@ -2,19 +2,19 @@ import { User } from '@/domain/users/entities/user.entity';
 import { UserLoginTakenError } from '@/domain/users/errors/user-login-taken.error';
 import { ICryptographyService } from '@/domain/cryptography/types/cryptography-service.interface';
 import { ILogger } from '@/infrastructure/logger/types/logger.interface';
-import { TokenPair, UserCredentials } from '@/domain/users/types/shared';
+import { UserCredentials } from '@/domain/users/types/shared';
 import { ICreateUserCase } from '@/domain/users/types/create-user-case.interface';
 import { IUsersRepository } from '@/domain/users/types/users-repository.interface';
-import { ICreateTokensCase } from '@/domain/users/types/create-tokens-case.interface';
+import { ICreateAccessTokenCase } from '@/domain/users/types/create-access-token-case.interface';
 
 export class CreateUserCase implements ICreateUserCase {
   constructor(
     private readonly logger: ILogger,
     private readonly usersRepository: IUsersRepository,
-    private readonly createTokensCase: ICreateTokensCase,
+    private readonly createAccessTokenCase: ICreateAccessTokenCase,
     private readonly cryptographyService: ICryptographyService,
   ) {}
-  async execute(credentials: UserCredentials): Promise<TokenPair> {
+  async execute(credentials: UserCredentials): Promise<string> {
     const { login, password } = credentials;
     this.logger.info('Starting user creating.', { login });
 
@@ -26,10 +26,10 @@ export class CreateUserCase implements ICreateUserCase {
     const user = await this.createUser(login, password);
     await this.usersRepository.saveUser(user);
 
-    const tokens = await this.createTokensCase.execute(user.id);
+    const token = await this.createAccessTokenCase.execute(user.id);
 
     this.logger.info('User was created.', user);
-    return tokens;
+    return token;
   }
 
   private async checkIsLoginTaken(login: string): Promise<boolean> {

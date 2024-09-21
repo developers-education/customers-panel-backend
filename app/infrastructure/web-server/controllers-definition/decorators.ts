@@ -9,6 +9,7 @@ import { ZodType } from 'zod';
 import type { oas31 } from 'zod-openapi';
 import { appDi } from '@/infrastructure/ioc-container';
 import { IControllersState } from '@/infrastructure/web-server/controllers-definition/types/controllers-state.interface';
+import { HandlerMetaParams } from '@/infrastructure/web-server/controllers-definition/types/decorators.types';
 
 const controllersState = appDi.resolve<IControllersState>('controllersState');
 
@@ -19,6 +20,16 @@ export function Handler(method: HTTPMethod, path?: string) {
     controllersState.setHandlerMethod(controller, handler, method);
     if (path) {
       controllersState.setHandlerPath(controller, handler, path);
+    }
+  };
+}
+
+export function HandlerMeta(params: HandlerMetaParams = {}) {
+  return (controller: ControllerPrototype, property: string): void => {
+    const handler: HandlerFunc = controller[property];
+
+    if (params.summary) {
+      controllersState.setHandlerSummary(controller, handler, params.summary);
     }
   };
 }

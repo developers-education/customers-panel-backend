@@ -8,7 +8,8 @@ export function normalizeApiError(error: unknown): H3Error {
     if (error.statusMessage === 'Validation Error') {
       return createError({
         ...error,
-        statusMessage: 'VALIDATION_ERROR',
+        statusMessage: 'VALIDATION',
+        cause: error,
       });
     }
     return error;
@@ -19,10 +20,13 @@ export function normalizeApiError(error: unknown): H3Error {
       statusCode: 400,
       statusMessage: error.name,
       data: error.data,
+      cause: error,
     });
   }
 
   return createError({
     statusCode: 500,
+    statusMessage: 'UNKNOWN',
+    cause: error,
   });
 }

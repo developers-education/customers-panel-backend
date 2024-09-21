@@ -12,14 +12,10 @@ export interface IConfig {
       expirationTime: string;
     };
   };
-  database: {
-    app: {
-      user: string;
-      password: string;
-      db: string;
-      host: string;
-      port: number;
-    };
+  openApi: {
+    title: string;
+    version: string;
+    description?: string;
   };
 }
 
