@@ -18,9 +18,9 @@ export class User {
   }
 }
 
-export interface UserParams {
+export type UserParams = {
   id?: string;
   login: string;
   passwordHash: string;
   salt: string;
-}
+};

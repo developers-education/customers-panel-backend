@@ -6,6 +6,7 @@ import '@/infrastructure/web-server/di';
 import '@/domain/jwt/di';
 import '@/domain/cryptography/di';
 import '@/domain/users/di';
+import '@/domain/customers/di';
 import '@/api/di';
 import { appDi } from '@/infrastructure/ioc-container';
 import { makeLogger } from '@/infrastructure/logger/make-logger';
