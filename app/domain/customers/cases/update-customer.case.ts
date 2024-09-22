@@ -15,7 +15,7 @@ export class UpdateCustomerCase implements IUpdateCustomerCase {
   public async execute(id: string, data: UpdateCustomerData): Promise<void> {
     this.logger.info('Starting customer updating.', { id, data });
 
-    const customer = await this.customersRepository.getCustomer(id);
+    const customer = await this.customersRepository.getCustomerById(id);
     if (!customer) {
       throw new Error(); // TODO
     }

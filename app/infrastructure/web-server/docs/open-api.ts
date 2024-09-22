@@ -67,12 +67,14 @@ export class OpenApi implements IOpenApi {
   }
 
   private addResponse(methodObj: ZodOpenApiOperationObject, responseSpec: ResponseSpec): void {
-    methodObj.responses = {
-      [responseSpec.statusCode]: {
-        content: {
-          [responseSpec.contentType]: {
-            schema: responseSpec.schema,
-          },
+    if (!methodObj.responses) {
+      methodObj.responses = {};
+    }
+
+    methodObj.responses[responseSpec.statusCode as any] = {
+      content: {
+        [responseSpec.contentType]: {
+          schema: responseSpec.schema,
         },
       },
     };

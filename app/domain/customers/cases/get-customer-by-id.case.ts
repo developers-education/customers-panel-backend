@@ -12,7 +12,7 @@ export class GetCustomerByIdCase implements IGetCustomerByIdCase {
   public async execute(id: string): Promise<CustomerPlain> {
     this.logger.info('Starting getting customer by id.', { id });
 
-    const customer = await this.customersRepository.getCustomer(id);
+    const customer = await this.customersRepository.getCustomerById(id);
     if (!customer) {
       throw new Error(); // TODO
     }

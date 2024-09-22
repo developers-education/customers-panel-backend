@@ -11,7 +11,7 @@ export class DeleteCustomerCase implements IDeleteCustomerCase {
   public async execute(id: string): Promise<void> {
     this.logger.info('Starting customer deleting.', { id });
 
-    const customer = await this.customersRepository.getCustomer(id);
+    const customer = await this.customersRepository.getCustomerById(id);
     if (!customer) {
       throw new Error(); // TODO
     }

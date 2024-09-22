@@ -39,7 +39,7 @@ export type CustomerParams = {
   idNumber: string;
   birthDate: Date;
   email: string;
-  phone?: string;
+  phone?: string | null;
 };
 
 export type CustomerPlain = {
