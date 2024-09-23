@@ -14,7 +14,7 @@ export class Customer {
     this.firstName = data.firstName;
     this.lastName = data.lastName;
     this.idNumber = data.idNumber;
-    this.birthDate = data.birthDate;
+    this.birthDate = data.birthDate instanceof Date ? data.birthDate : new Date(data.birthDate);
     this.email = data.email;
     this.phone = data.phone ?? null;
   }
@@ -37,7 +37,7 @@ export type CustomerParams = {
   firstName: string;
   lastName: string;
   idNumber: string;
-  birthDate: Date;
+  birthDate: Date | string;
   email: string;
   phone?: string | null;
 };

@@ -5,6 +5,7 @@ import {
   UpdateCustomerData,
 } from '@/domain/customers/types/update-customer-case.interface';
 import { Customer } from '@/domain/customers/entities/customer.entity';
+import { CustomerNotFoundError } from '@/domain/customers/errors/customer-not-found.error';
 
 export class UpdateCustomerCase implements IUpdateCustomerCase {
   constructor(
@@ -17,7 +18,7 @@ export class UpdateCustomerCase implements IUpdateCustomerCase {
 
     const customer = await this.customersRepository.getCustomerById(id);
     if (!customer) {
-      throw new Error(); // TODO
+      throw new CustomerNotFoundError();
     }
 
     this.updateCustomerFields(customer, data);

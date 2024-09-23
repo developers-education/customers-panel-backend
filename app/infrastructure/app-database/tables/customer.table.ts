@@ -5,7 +5,7 @@ export type CustomerTable = TableBase & {
   firstName: string;
   lastName: string;
   idNumber: string;
-  birthDate: Date;
+  birthDate: string;
   email: string;
   phone: string | null;
 };

@@ -39,7 +39,18 @@ export class ControllerInitializer implements IControllerInitializer {
 
       if (method === 'connect') return;
 
-      this.openApi.addPath(method, fullPath, {
+      const openApiPath = fullPath
+        .split('/')
+        .map((part) => {
+          if (part.startsWith(':')) {
+            return `{${part.substring(1)}}`;
+          } else {
+            return part;
+          }
+        })
+        .join('/');
+
+      this.openApi.addPath(method, openApiPath, {
         responses: [...controllerDef.openApiResponses, ...handlerDef.openApiResponses],
         requestBody: handlerDef.openApiBody,
         summary: handlerDef.openApiSummary,
@@ -68,6 +79,7 @@ export class ControllerInitializer implements IControllerInitializer {
       try {
         return await handler(event);
       } catch (error: unknown) {
+        this.logger.error(error as Error, 'Caught error.');
         throw normalizeApiError(error);
       }
     };

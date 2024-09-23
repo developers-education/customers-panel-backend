@@ -31,21 +31,36 @@ export class CustomersRepository implements ICustomersRepository {
   }
 
   public async getCustomers(params?: GetCustomersParams): Promise<Customer[]> {
-    const builder = this.db.selectFrom('customer').selectAll();
+    let builder = this.db.selectFrom('customer').selectAll();
     if (params?.limit !== undefined) {
-      builder.limit(params.limit);
+      builder = builder.limit(params.limit);
     }
     if (params?.offset !== undefined) {
-      builder.offset(params.offset);
+      builder = builder.offset(params.offset);
     }
     const result = await builder.execute();
     return result.map((data) => new Customer(data));
   }
 
   public async saveCustomer(customer: Customer): Promise<Customer> {
+    const data = { ...customer.toPlain(), birthDate: customer.birthDate.toDateString() };
+
+    const existing = await this.getCustomerById(customer.id);
+    if (existing) {
+      const { id, ...toUpdate } = data;
+      const result = await this.db
+        .updateTable('customer')
+        .set(toUpdate)
+        .where('id', '=', id)
+        .returningAll()
+        .executeTakeFirstOrThrow();
+
+      return new Customer(result);
+    }
+
     const result = await this.db
       .insertInto('customer')
-      .values(customer)
+      .values(data)
       .returningAll()
       .executeTakeFirstOrThrow();
 

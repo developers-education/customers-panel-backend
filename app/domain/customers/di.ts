@@ -10,6 +10,8 @@ import { GetCustomersWithPagesCase } from '@/domain/customers/cases/get-customer
 import { IGetCustomersWithPagesCase } from '@/domain/customers/types/get-customers-with-pages-case.interface';
 import { UpdateCustomerCase } from '@/domain/customers/cases/update-customer.case';
 import { IUpdateCustomerCase } from '@/domain/customers/types/update-customer-case.interface';
+import { DeleteCustomerCase } from '@/domain/customers/cases/delete-customer.case';
+import { IDeleteCustomerCase } from '@/domain/customers/types/delete-customer-case.interface';
 
 appDi.register({
   customersRepository: asClass(
@@ -27,4 +29,7 @@ appDi.register({
   updateCustomerCase: asClass(
     UpdateCustomerCase,
   ).singleton() satisfies Resolver<IUpdateCustomerCase>,
+  deleteCustomerCase: asClass(
+    DeleteCustomerCase,
+  ).singleton() satisfies Resolver<IDeleteCustomerCase>,
 });

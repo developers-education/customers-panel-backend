@@ -1,4 +1,4 @@
-import { H3Event, readValidatedBody, send, setCookie, setResponseStatus } from 'h3';
+import { H3Event, readValidatedBody, setCookie, setResponseStatus } from 'h3';
 import { loginUserSchema } from './schemas/login-user.schema';
 import { createUserSchema } from './schemas/create-user.schema';
 import { IConfig, NodeEnv } from '@/infrastructure/config/types/config.interface';
@@ -42,7 +42,7 @@ export class UsersController {
     this.setAccessTokenCookie(event, token);
 
     setResponseStatus(event, 204);
-    await send(event);
+    return null;
   }
 
   @Handler('POST', '/session')
@@ -59,7 +59,7 @@ export class UsersController {
     this.setAccessTokenCookie(event, token);
 
     setResponseStatus(event, 204);
-    await send(event);
+    return null;
   }
 
   @Handler('DELETE', '/session')
@@ -71,7 +71,7 @@ export class UsersController {
     this.setAccessTokenCookie(event, '');
 
     setResponseStatus(event, 204);
-    await send(event);
+    return null;
   }
 
   private setAccessTokenCookie(event: H3Event, accessToken: string): void {

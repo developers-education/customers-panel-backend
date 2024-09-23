@@ -1,6 +1,7 @@
 import { ILogger } from '@/infrastructure/logger/types/logger.interface';
 import { ICustomersRepository } from '@/domain/customers/types/customers-repository.interface';
 import { IDeleteCustomerCase } from '@/domain/customers/types/delete-customer-case.interface';
+import { CustomerNotFoundError } from '@/domain/customers/errors/customer-not-found.error';
 
 export class DeleteCustomerCase implements IDeleteCustomerCase {
   constructor(
@@ -13,7 +14,7 @@ export class DeleteCustomerCase implements IDeleteCustomerCase {
 
     const customer = await this.customersRepository.getCustomerById(id);
     if (!customer) {
-      throw new Error(); // TODO
+      throw new CustomerNotFoundError();
     }
 
     await this.customersRepository.deleteCustomer(customer.id);
