@@ -26,5 +26,5 @@ appDi.register({
   apiControllerInitializer: asClass(
     ControllerInitializer,
   ).singleton() satisfies Resolver<IControllerInitializer>,
-  authChain: asClass(AuthChain).singleton() satisfies Resolver<IChainHandler>,
+  authChainHandler: asClass(AuthChain).singleton() satisfies Resolver<IChainHandler>,
 });

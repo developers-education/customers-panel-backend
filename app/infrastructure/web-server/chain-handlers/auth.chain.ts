@@ -11,8 +11,11 @@ export class AuthChain implements IChainHandler {
     const accessToken = getCookie(event, ACCESS_TOKEN_NAME);
 
     if (!accessToken) {
+      // TODO normalize
       throw createError({
         statusCode: 401,
+        statusMessage: 'UNAUTHORIZED',
+        data: {},
       });
     }
 
@@ -20,6 +23,8 @@ export class AuthChain implements IChainHandler {
     if (!isTokenValid) {
       throw createError({
         statusCode: 403,
+        statusMessage: 'FORBIDDEN',
+        data: {},
       });
     }
 

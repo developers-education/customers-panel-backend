@@ -10,9 +10,10 @@ const webServer = appDi.resolve<IWebServer>('webServer');
 const db = appDi.resolve<IAppDatabase>('db');
 const apiControllerInitializer = appDi.resolve<IControllerInitializer>('apiControllerInitializer');
 const usersController = appDi.resolve('usersController');
+const customersController = appDi.resolve('customersController');
 
 // TODO apiControllerInitializer move out?
-apiControllerInitializer.init(usersController);
+apiControllerInitializer.init(usersController).init(customersController);
 webServer.start();
 
 const shutdown = () => {
