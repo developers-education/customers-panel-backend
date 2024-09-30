@@ -14,6 +14,7 @@ export class GetCustomersWithPagesCase implements IGetCustomersWithPagesCase {
   ) {}
 
   public async execute(
+    userId: string,
     pagination: GetCustomersWithPagesPagination = {},
   ): Promise<GetCustomersWithPagesResult> {
     const limit = pagination.limit ?? 10;
@@ -22,6 +23,7 @@ export class GetCustomersWithPagesCase implements IGetCustomersWithPagesCase {
     this.logger.info('Starting getting customers with pages.', { limit, page });
 
     const customers = await this.customersRepository.getCustomers({
+      userId,
       limit,
       offset: (page - 1) * limit,
     });

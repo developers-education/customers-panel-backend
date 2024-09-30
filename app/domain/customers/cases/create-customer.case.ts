@@ -12,10 +12,13 @@ export class CreateCustomerCase implements ICreateCustomerCase {
     private readonly customersRepository: ICustomersRepository,
   ) {}
 
-  public async execute(params: CreateCustomerParams): Promise<void> {
+  public async execute(
+    userId: string,
+    params: CreateCustomerParams,
+  ): Promise<void> {
     this.logger.info('Starting customer creating.', { params });
 
-    const customer = new Customer(params);
+    const customer = new Customer({ userId, ...params });
     await this.customersRepository.saveCustomer(customer);
 
     this.logger.info('Customer successfully created.', { id: customer.id });

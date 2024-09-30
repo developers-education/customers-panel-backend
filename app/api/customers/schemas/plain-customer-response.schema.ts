@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const plainCustomerResponseSchema = z.object({
   id: z.string().uuid(),
+  userId: z.string().uuid(),
   firstName: z.string().openapi({ example: 'Dmitriy' }),
   lastName: z.string().openapi({ example: 'Sienduk' }),
   idNumber: z.string(),

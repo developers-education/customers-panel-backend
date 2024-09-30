@@ -12,19 +12,28 @@ import { IChainHandler } from '@/infrastructure/web-server/types/chain-handler.i
 import { ZodType } from 'zod';
 
 export class ControllersState implements IControllersState {
-  private readonly controllers: Map<ControllerPrototype, ControllerDef> = new Map();
+  private readonly controllers: Map<ControllerPrototype, ControllerDef> =
+    new Map();
 
-  public getControllerDef(controller: ControllerPrototype): ControllerDef | null {
+  public getControllerDef(
+    controller: ControllerPrototype,
+  ): ControllerDef | null {
     const controllerDef = this.controllers.get(controller);
     return controllerDef ?? null;
   }
 
-  public addControllerChain(controller: ControllerPrototype, chain: IChainHandler[]): void {
+  public addControllerChain(
+    controller: ControllerPrototype,
+    chain: IChainHandler[],
+  ): void {
     const controllerDef = this.getOrInitControllerDef(controller);
     controllerDef.chain.push(...chain);
   }
 
-  public setControllerPrefix(controller: ControllerPrototype, prefix: string): void {
+  public setControllerPrefix(
+    controller: ControllerPrototype,
+    prefix: string,
+  ): void {
     const controllerDef = this.getOrInitControllerDef(controller);
     controllerDef.prefix = prefix;
   }
@@ -64,7 +73,11 @@ export class ControllersState implements IControllersState {
     handlerDef.openApiSummary = summary;
   }
 
-  public setHandlerPath(controller: ControllerPrototype, handler: Handler, path: string): void {
+  public setHandlerPath(
+    controller: ControllerPrototype,
+    handler: Handler,
+    path: string,
+  ): void {
     const handlerDef = this.getOrInitHandlerDef(controller, handler);
     handlerDef.path = path;
   }
@@ -120,7 +133,9 @@ export class ControllersState implements IControllersState {
     handlerDef.openApiHeader = openApiHeader;
   }
 
-  private getOrInitControllerDef(controller: ControllerPrototype): ControllerDef {
+  private getOrInitControllerDef(
+    controller: ControllerPrototype,
+  ): ControllerDef {
     let controllerDef = this.controllers.get(controller);
     if (controllerDef) {
       return controllerDef;
@@ -138,7 +153,10 @@ export class ControllersState implements IControllersState {
     return controllerDef;
   }
 
-  private getOrInitHandlerDef(controller: ControllerPrototype, handler: Handler): HandlerDef {
+  private getOrInitHandlerDef(
+    controller: ControllerPrototype,
+    handler: Handler,
+  ): HandlerDef {
     const controllerDef = this.getOrInitControllerDef(controller);
     let handlerDef = controllerDef.handlers.get(handler);
     if (handlerDef) {

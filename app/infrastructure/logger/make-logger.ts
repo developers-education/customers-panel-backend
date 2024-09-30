@@ -1,5 +1,8 @@
 import { Logger } from '@/infrastructure/logger/index';
-import { IConfig, NodeEnv } from '@/infrastructure/config/types/config.interface';
+import {
+  IConfig,
+  NodeEnv,
+} from '@/infrastructure/config/types/config.interface';
 import { IRequestStorage } from '@/infrastructure/request-storage/types/request-storage.interface';
 
 export function makeLogger(

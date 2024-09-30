@@ -8,7 +8,9 @@ import { IControllerInitializer } from '@/infrastructure/web-server/controllers-
 
 const webServer = appDi.resolve<IWebServer>('webServer');
 const db = appDi.resolve<IAppDatabase>('db');
-const apiControllerInitializer = appDi.resolve<IControllerInitializer>('apiControllerInitializer');
+const apiControllerInitializer = appDi.resolve<IControllerInitializer>(
+  'apiControllerInitializer',
+);
 const usersController = appDi.resolve('usersController');
 const customersController = appDi.resolve('customersController');
 
@@ -17,7 +19,9 @@ apiControllerInitializer.init(usersController).init(customersController);
 webServer.start();
 
 const shutdown = () => {
-  Promise.allSettled([webServer.stop(), db.destroy()]).finally(() => process.exit(0));
+  Promise.allSettled([webServer.stop(), db.destroy()]).finally(() =>
+    process.exit(0),
+  );
 };
 
 process.on('SIGINT', shutdown);

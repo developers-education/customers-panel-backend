@@ -1,15 +1,4 @@
-import { AppError } from '@/common/errors/app-error';
-import { errorSchema } from '@/common/schemas/error.schema';
-import { z } from 'zod';
+import { defineError } from '@/common/errors/define-error';
 
-const NAME = 'USER_NOT_FOUND';
-
-export class UserNotFoundError extends AppError {
-  constructor() {
-    super(NAME);
-  }
-}
-
-export const userNotFoundErrorSchema = errorSchema.extend({
-  statusMessage: z.literal(NAME),
-});
+export const [UserNotFoundError, userNotFoundApiErrorSchema] =
+  defineError('USER_NOT_FOUND');

@@ -9,6 +9,7 @@ export interface ICustomersRepository {
 }
 
 export type GetCustomersParams = {
+  userId?: string;
   limit?: number;
   offset?: number;
 };

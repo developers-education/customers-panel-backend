@@ -43,7 +43,10 @@ export class CustomersRepository implements ICustomersRepository {
   }
 
   public async saveCustomer(customer: Customer): Promise<Customer> {
-    const data = { ...customer.toPlain(), birthDate: customer.birthDate.toDateString() };
+    const data = {
+      ...customer.toPlain(),
+      birthDate: customer.birthDate.toDateString(),
+    };
 
     const existing = await this.getCustomerById(customer.id);
     if (existing) {

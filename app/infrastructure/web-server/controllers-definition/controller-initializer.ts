@@ -1,5 +1,8 @@
 import { IControllerInitializer } from '@/infrastructure/web-server/controllers-definition/types/controller-initializer.interface';
-import { Controller, HandlerFunc } from '@/infrastructure/web-server/types/shared';
+import {
+  Controller,
+  HandlerFunc,
+} from '@/infrastructure/web-server/types/shared';
 import { defineEventHandler, H3Event, HTTPMethod, Router } from 'h3';
 import { IControllersState } from '@/infrastructure/web-server/controllers-definition/types/controllers-state.interface';
 import { ILogger } from '@/infrastructure/logger/types/logger.interface';
@@ -18,7 +21,9 @@ export class ControllerInitializer implements IControllerInitializer {
   ) {}
 
   public init(controller: Controller): this {
-    const controllerDef = this.controllersState.getControllerDef(controller.constructor.prototype);
+    const controllerDef = this.controllersState.getControllerDef(
+      controller.constructor.prototype,
+    );
     if (!controllerDef) {
       this.logger.warn(
         `${controller.constructor.name} not registered: not defined in controllers state.`,
@@ -32,7 +37,9 @@ export class ControllerInitializer implements IControllerInitializer {
       const fullPath = (controllerDef.prefix ?? '') + (handlerDef.path ?? '');
       const fullChain = [...controllerDef.chain, ...handlerDef.chain];
       const boundHandler = handlerDef.handler.bind(controller);
-      const handler = this.withErrorHandler(this.withChain(boundHandler, fullChain));
+      const handler = this.withErrorHandler(
+        this.withChain(boundHandler, fullChain),
+      );
       const method = handlerDef.method.toLowerCase() as Lowercase<HTTPMethod>;
 
       this.apiRouter.add(fullPath, defineEventHandler(handler), method);
@@ -51,7 +58,10 @@ export class ControllerInitializer implements IControllerInitializer {
         .join('/');
 
       this.openApi.addPath(method, openApiPath, {
-        responses: [...controllerDef.openApiResponses, ...handlerDef.openApiResponses],
+        responses: [
+          ...controllerDef.openApiResponses,
+          ...handlerDef.openApiResponses,
+        ],
         requestBody: handlerDef.openApiBody,
         summary: handlerDef.openApiSummary,
         params: handlerDef.openApiParams,

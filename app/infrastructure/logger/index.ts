@@ -1,5 +1,12 @@
-import { pino, Logger as PinoLogger, LoggerOptions as PinoLoggerOptions } from 'pino';
-import { ILogger, LoggerOptions } from '@/infrastructure/logger/types/logger.interface';
+import {
+  pino,
+  Logger as PinoLogger,
+  LoggerOptions as PinoLoggerOptions,
+} from 'pino';
+import {
+  ILogger,
+  LoggerOptions,
+} from '@/infrastructure/logger/types/logger.interface';
 import { IRequestStorage } from '@/infrastructure/request-storage/types/request-storage.interface';
 
 export class Logger implements ILogger {
@@ -56,14 +63,22 @@ export class Logger implements ILogger {
     this.pinoLogger.warn(data, this.prepareMessage(message));
   }
 
-  public error(error: Error, message: string, data: Record<string, any> = {}): void {
+  public error(
+    error: Error,
+    message: string,
+    data: Record<string, any> = {},
+  ): void {
     this.pinoLogger.error(
       { ...data, error: this.getPlainError(error) },
       this.prepareMessage(message),
     );
   }
 
-  public fatal(error: Error, message: string, data: Record<string, any> = {}): void {
+  public fatal(
+    error: Error,
+    message: string,
+    data: Record<string, any> = {},
+  ): void {
     this.pinoLogger.fatal({ ...data, error }, this.prepareMessage(message));
   }
 
@@ -73,8 +88,10 @@ export class Logger implements ILogger {
 
   private getPlainError(error: object): object {
     const plainError: object = { ...error };
-    // @ts-ignore
-    Object.getOwnPropertyNames(error).forEach((name) => (plainError[name] = error[name]));
+    Object.getOwnPropertyNames(error).forEach(
+      // @ts-ignore
+      (name) => (plainError[name] = error[name]),
+    );
     return plainError;
   }
 }

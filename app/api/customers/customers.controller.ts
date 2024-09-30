@@ -9,6 +9,7 @@ import {
   Response,
 } from '@/infrastructure/web-server/controllers-definition/decorators';
 import {
+  getCookie,
   getValidatedQuery,
   getValidatedRouterParams,
   H3Event,
@@ -28,7 +29,9 @@ import { IDeleteCustomerCase } from '@/domain/customers/types/delete-customer-ca
 import { IGetCustomersWithPagesCase } from '@/domain/customers/types/get-customers-with-pages-case.interface';
 import { paginationSchema } from '@/common/schemas/pagination.schema';
 import { customersWithPagesResponseSchema } from '@/api/customers/schemas/customers-with-pages-response.schema';
-import { customerNotFoundErrorSchema } from '@/domain/customers/errors/customer-not-found.error';
+import { customerNotFoundApiErrorSchema } from '@/domain/customers/errors/customer-not-found.error';
+import { ACCESS_TOKEN_NAME } from '@/infrastructure/web-server/constants';
+import { parseAccessToken } from '@/domain/jwt/helpers/parseJWT';
 
 const auth = appDi.resolve<IChainHandler>('authChainHandler');
 
@@ -50,10 +53,12 @@ export class CustomersController {
   @Body(createCustomerSchema)
   @Response(204, '')
   public async createCustomer(event: H3Event) {
+    const accessToken = getCookie(event, ACCESS_TOKEN_NAME)!;
+    const { id: userId } = parseAccessToken(accessToken);
     const params = await readValidatedBody(event, createCustomerSchema.parse);
 
     const birthDate = new Date(params.birthDate);
-    await this.createCustomerCase.execute({ ...params, birthDate });
+    await this.createCustomerCase.execute(userId, { ...params, birthDate });
 
     setResponseStatus(event, 204);
     return null;
@@ -66,13 +71,15 @@ export class CustomersController {
   @Body(updateCustomerSchema)
   @Params(idParamSchema)
   @Response(204, '')
-  @Response(404, customerNotFoundErrorSchema)
+  @Response(404, customerNotFoundApiErrorSchema)
   public async updateCustomer(event: H3Event) {
     const { id } = await getValidatedRouterParams(event, idParamSchema.parse);
     const data = await readValidatedBody(event, updateCustomerSchema.parse);
+    const accessToken = getCookie(event, ACCESS_TOKEN_NAME)!;
+    const { id: userId } = parseAccessToken(accessToken);
 
     const birthDate = data.birthDate ? new Date(data.birthDate) : undefined;
-    await this.updateCustomerCase.execute(id, { ...data, birthDate });
+    await this.updateCustomerCase.execute(userId, id, { ...data, birthDate });
 
     setResponseStatus(event, 204);
     return null;
@@ -84,10 +91,12 @@ export class CustomersController {
   })
   @Params(idParamSchema)
   @Response(200, plainCustomerResponseSchema)
-  @Response(404, customerNotFoundErrorSchema)
+  @Response(404, customerNotFoundApiErrorSchema)
   public async getCustomerById(event: H3Event) {
     const { id } = await getValidatedRouterParams(event, idParamSchema.parse);
-    const customer = await this.getCustomerByIdCase.execute(id);
+    const accessToken = getCookie(event, ACCESS_TOKEN_NAME)!;
+    const { id: userId } = parseAccessToken(accessToken);
+    const customer = await this.getCustomerByIdCase.execute(userId, id);
 
     return plainCustomerResponseSchema.parse(customer);
   }
@@ -99,8 +108,14 @@ export class CustomersController {
   @Response(200, customersWithPagesResponseSchema)
   @Query(paginationSchema)
   public async getCustomers(event: H3Event) {
+    const accessToken = getCookie(event, ACCESS_TOKEN_NAME)!;
+    const { id: userId } = parseAccessToken(accessToken);
+
     const pagination = await getValidatedQuery(event, paginationSchema.parse);
-    const customersResult = await this.getCustomersWithPagesCase.execute(pagination);
+    const customersResult = await this.getCustomersWithPagesCase.execute(
+      userId,
+      pagination,
+    );
 
     return customersWithPagesResponseSchema.parse(customersResult);
   }
@@ -111,10 +126,13 @@ export class CustomersController {
   })
   @Params(idParamSchema)
   @Response(204, '')
-  @Response(404, customerNotFoundErrorSchema)
+  @Response(404, customerNotFoundApiErrorSchema)
   public async deleteCustomerById(event: H3Event) {
     const { id } = await getValidatedRouterParams(event, idParamSchema.parse);
-    await this.deleteCustomerCase.execute(id);
+    const accessToken = getCookie(event, ACCESS_TOKEN_NAME)!;
+    const { id: userId } = parseAccessToken(accessToken);
+
+    await this.deleteCustomerCase.execute(userId, id);
 
     setResponseStatus(event, 204);
     return null;

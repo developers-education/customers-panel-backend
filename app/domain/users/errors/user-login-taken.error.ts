@@ -1,22 +1,11 @@
-import { AppError } from '@/common/errors/app-error';
-import { errorSchema } from '@/common/schemas/error.schema';
 import { z } from 'zod';
+import { defineError } from '@/common/errors/define-error';
 
-const NAME = 'LOGIN_TAKEN';
-
-interface Data {
+export const [UserLoginTakenError, userLoginTakenApiErrorSchema] = defineError<{
   login: string;
-}
-
-export class UserLoginTakenError extends AppError {
-  constructor(data: Data) {
-    super(NAME, data);
-  }
-}
-
-export const userLoginTakenErrorSchema = errorSchema.extend({
-  statusMessage: z.literal(NAME),
-  data: z.object({
+}>(
+  'LOGIN_TAKEN',
+  z.object({
     login: z.string(),
   }),
-});
+);

@@ -7,7 +7,9 @@ import { IUsersRepository } from '@/domain/users/types/users-repository.interfac
 import { UserCredentials } from '@/domain/users/types/shared';
 import { ICreateAccessTokenCase } from '@/domain/users/types/create-access-token-case.interface';
 
-export class CreateTokenByCredentialsCase implements ICreateTokenByCredentialsCase {
+export class CreateTokenByCredentialsCase
+  implements ICreateTokenByCredentialsCase
+{
   constructor(
     private readonly logger: ILogger,
     private readonly usersRepository: IUsersRepository,
@@ -23,7 +25,11 @@ export class CreateTokenByCredentialsCase implements ICreateTokenByCredentialsCa
       throw new UserNotFoundError();
     }
 
-    const passwordHash = await this.cryptographyService.hash(password, user.salt, 1000);
+    const passwordHash = await this.cryptographyService.hash(
+      password,
+      user.salt,
+      1000,
+    );
     const isRightPassword = user.isCorrectPasswordHash(passwordHash);
     if (!isRightPassword) {
       throw new UserWrongPasswordError();

@@ -9,11 +9,11 @@ export class DeleteCustomerCase implements IDeleteCustomerCase {
     private readonly customersRepository: ICustomersRepository,
   ) {}
 
-  public async execute(id: string): Promise<void> {
+  public async execute(userId: string, id: string): Promise<void> {
     this.logger.info('Starting customer deleting.', { id });
 
     const customer = await this.customersRepository.getCustomerById(id);
-    if (!customer) {
+    if (!customer || customer.userId !== userId) {
       throw new CustomerNotFoundError();
     }
 

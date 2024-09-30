@@ -38,7 +38,11 @@ export class CreateUserCase implements ICreateUserCase {
 
   private async createUser(login: string, password: string): Promise<User> {
     const salt = this.cryptographyService.random(20);
-    const passwordHash = await this.cryptographyService.hash(password, salt, 1000);
+    const passwordHash = await this.cryptographyService.hash(
+      password,
+      salt,
+      1000,
+    );
 
     return new User({
       login,

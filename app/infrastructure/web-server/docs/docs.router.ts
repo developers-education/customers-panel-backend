@@ -27,11 +27,15 @@ export function makeDocsRouter(openApi: IOpenApi): Router {
     defineEventHandler((event) => {
       return serveStatic(event, {
         getContents: async (id) => {
-          return fsp.readFile(path.join(swaggerUiDist.absolutePath(), id.replace('/docs', '')));
+          return fsp.readFile(
+            path.join(swaggerUiDist.absolutePath(), id.replace('/docs', '')),
+          );
         },
         getMeta: async (id) => {
           const stats = await fsp
-            .stat(path.join(swaggerUiDist.absolutePath(), id.replace('/docs', '')))
+            .stat(
+              path.join(swaggerUiDist.absolutePath(), id.replace('/docs', '')),
+            )
             .catch(() => {});
           if (!stats || !stats.isFile()) {
             return;

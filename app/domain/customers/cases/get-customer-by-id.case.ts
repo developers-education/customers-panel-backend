@@ -10,11 +10,11 @@ export class GetCustomerByIdCase implements IGetCustomerByIdCase {
     private readonly customersRepository: ICustomersRepository,
   ) {}
 
-  public async execute(id: string): Promise<CustomerPlain> {
+  public async execute(userId: string, id: string): Promise<CustomerPlain> {
     this.logger.info('Starting getting customer by id.', { id });
 
     const customer = await this.customersRepository.getCustomerById(id);
-    if (!customer) {
+    if (!customer || customer.userId !== userId) {
       throw new CustomerNotFoundError();
     }
 

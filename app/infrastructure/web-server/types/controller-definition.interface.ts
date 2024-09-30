@@ -5,7 +5,10 @@ import { HandlerFunc } from './shared';
 export interface IControllerDefinition {
   handlers: HandlerState[];
   controller: ControllerState;
-  updateHandlerDefinition(handler: HandlerFunc, fields: UpdateHandlerDefinitionFields): void;
+  updateHandlerDefinition(
+    handler: HandlerFunc,
+    fields: UpdateHandlerDefinitionFields,
+  ): void;
   updateControllerDefinition(fields: UpdateControllerDefinitionFields): void;
 }
 

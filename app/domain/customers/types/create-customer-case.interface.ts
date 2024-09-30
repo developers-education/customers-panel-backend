@@ -1,5 +1,5 @@
 export interface ICreateCustomerCase {
-  execute(params: CreateCustomerParams): Promise<void>;
+  execute(userId: string, params: CreateCustomerParams): Promise<void>;
 }
 
 export type CreateCustomerParams = {

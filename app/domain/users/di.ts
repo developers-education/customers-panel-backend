@@ -12,12 +12,18 @@ import { ICreateTokenByCredentialsCase } from '@/domain/users/types/create-token
 import { IValidateTokenCase } from '@/domain/users/types/validate-token.interface';
 
 appDi.register({
-  usersRepository: asClass(UsersRepository).singleton() satisfies Resolver<IUsersRepository>,
+  usersRepository: asClass(
+    UsersRepository,
+  ).singleton() satisfies Resolver<IUsersRepository>,
   createAccessTokenCase: asClass(
     CreateAccessTokenCase,
   ).singleton() satisfies Resolver<ICreateAccessTokenCase>,
-  createUserCase: asClass(CreateUserCase).singleton() satisfies Resolver<ICreateUserCase>,
-  validateTokenCase: asClass(ValidateTokenCase).singleton() satisfies Resolver<IValidateTokenCase>,
+  createUserCase: asClass(
+    CreateUserCase,
+  ).singleton() satisfies Resolver<ICreateUserCase>,
+  validateTokenCase: asClass(
+    ValidateTokenCase,
+  ).singleton() satisfies Resolver<IValidateTokenCase>,
   createTokenByCredentialsCase: asClass(
     CreateTokenByCredentialsCase,
   ).singleton() satisfies Resolver<ICreateTokenByCredentialsCase>,

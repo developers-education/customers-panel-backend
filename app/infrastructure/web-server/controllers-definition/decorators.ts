@@ -43,7 +43,10 @@ export function Controller(prefix?: string) {
 }
 
 export function Chain(...chain: IChainHandler[]) {
-  return (controller: ControllerPrototype | Controller, property?: string): void => {
+  return (
+    controller: ControllerPrototype | Controller,
+    property?: string,
+  ): void => {
     if (property) {
       const handler: HandlerFunc = controller[property];
       controllersState.addHandlerChain(controller, handler, chain);
@@ -127,7 +130,10 @@ export function Response(
   contentTypeOrSchema?: string | ZodType | oas31.SchemaObject,
   schema?: ZodType | oas31.SchemaObject,
 ) {
-  return (controller: ControllerPrototype | Controller, property?: string): void => {
+  return (
+    controller: ControllerPrototype | Controller,
+    property?: string,
+  ): void => {
     let responseSchema: ZodType | oas31.SchemaObject = {};
     let contentType: string = 'application/json';
 

@@ -23,7 +23,7 @@ export const createCustomerSchema = z.object({
   birthDate: z.string().date(),
   phone: z
     .string()
-    .regex(/^[0-9]*%/gm)
+    .regex(/^[0-9]*$/gm)
     .min(10)
     .max(16)
     .optional()

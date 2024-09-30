@@ -19,12 +19,18 @@ import { IChainHandler } from '@/infrastructure/web-server/types/chain-handler.i
 appDi.register({
   openApi: asClass(OpenApi).singleton() satisfies Resolver<IOpenApi>,
   webServer: asClass(WebServer).singleton() satisfies Resolver<IWebServer>,
-  requestLogger: asClass(RequestLogger).singleton() satisfies Resolver<IRequestLogger>,
+  requestLogger: asClass(
+    RequestLogger,
+  ).singleton() satisfies Resolver<IRequestLogger>,
   apiRouter: asFunction(makeApiRouter).singleton() satisfies Resolver<Router>,
   docsRouter: asFunction(makeDocsRouter).singleton() satisfies Resolver<Router>,
-  controllersState: asClass(ControllersState).singleton() satisfies Resolver<IControllersState>,
+  controllersState: asClass(
+    ControllersState,
+  ).singleton() satisfies Resolver<IControllersState>,
   apiControllerInitializer: asClass(
     ControllerInitializer,
   ).singleton() satisfies Resolver<IControllerInitializer>,
-  authChainHandler: asClass(AuthChain).singleton() satisfies Resolver<IChainHandler>,
+  authChainHandler: asClass(
+    AuthChain,
+  ).singleton() satisfies Resolver<IChainHandler>,
 });

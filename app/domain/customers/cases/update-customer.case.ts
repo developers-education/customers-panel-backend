@@ -13,11 +13,15 @@ export class UpdateCustomerCase implements IUpdateCustomerCase {
     private readonly customersRepository: ICustomersRepository,
   ) {}
 
-  public async execute(id: string, data: UpdateCustomerData): Promise<void> {
+  public async execute(
+    userId: string,
+    id: string,
+    data: UpdateCustomerData,
+  ): Promise<void> {
     this.logger.info('Starting customer updating.', { id, data });
 
     const customer = await this.customersRepository.getCustomerById(id);
-    if (!customer) {
+    if (!customer || customer.userId !== userId) {
       throw new CustomerNotFoundError();
     }
 
@@ -28,7 +32,10 @@ export class UpdateCustomerCase implements IUpdateCustomerCase {
     this.logger.info('Customer successfully updated.', { id });
   }
 
-  private updateCustomerFields(customer: Customer, data: UpdateCustomerData): void {
+  private updateCustomerFields(
+    customer: Customer,
+    data: UpdateCustomerData,
+  ): void {
     if (data.firstName !== undefined) {
       customer.firstName = data.firstName;
     }

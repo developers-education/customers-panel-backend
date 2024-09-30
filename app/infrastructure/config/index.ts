@@ -1,5 +1,8 @@
 import * as process from 'process';
-import { IConfig, NodeEnv } from '@/infrastructure/config/types/config.interface';
+import {
+  IConfig,
+  NodeEnv,
+} from '@/infrastructure/config/types/config.interface';
 
 export const config: IConfig = {
   nodeEnv: (process.env.NODE_ENV ?? NodeEnv.DEVELOPMENT) as NodeEnv,

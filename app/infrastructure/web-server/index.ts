@@ -48,7 +48,9 @@ export class WebServer implements IWebServer {
           rej();
         })
         .on('listening', () => {
-          this.logger.info(`Web server started on port ${this.config.webServer.port}.`);
+          this.logger.info(
+            `Web server started on port ${this.config.webServer.port}.`,
+          );
           res();
         });
     });

@@ -1,3 +1,3 @@
 export interface IDeleteCustomerCase {
-  execute(id: string): Promise<void>;
+  execute(userId: string, id: string): Promise<void>;
 }

@@ -1,7 +1,10 @@
 import { CustomerPlain } from '@/domain/customers/entities/customer.entity';
 
 export interface IGetCustomersWithPagesCase {
-  execute(pagination?: GetCustomersWithPagesPagination): Promise<GetCustomersWithPagesResult>;
+  execute(
+    userId: string,
+    pagination?: GetCustomersWithPagesPagination,
+  ): Promise<GetCustomersWithPagesResult>;
 }
 
 export type GetCustomersWithPagesResult = {

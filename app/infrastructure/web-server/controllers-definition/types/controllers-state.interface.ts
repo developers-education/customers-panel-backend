@@ -1,4 +1,7 @@
-import { ControllerPrototype, HandlerFunc } from '@/infrastructure/web-server/types/shared';
+import {
+  ControllerPrototype,
+  HandlerFunc,
+} from '@/infrastructure/web-server/types/shared';
 import { HTTPMethod } from 'h3';
 import { IChainHandler } from '@/infrastructure/web-server/types/chain-handler.interface';
 import { ZodType } from 'zod';
@@ -7,21 +10,59 @@ import type { oas31 } from 'zod-openapi';
 export interface IControllersState {
   getControllerDef(controller: ControllerPrototype): ControllerDef | null;
   setControllerPrefix(controller: ControllerPrototype, prefix: string): void;
-  addControllerChain(controller: ControllerPrototype, chain: IChainHandler[]): void;
-  addControllerResponse(controller: ControllerPrototype, openApiResponse: OpenApiResponse): void;
-  setHandlerPath(controller: ControllerPrototype, handler: Handler, path: string): void;
-  addHandlerChain(controller: ControllerPrototype, handler: Handler, chain: IChainHandler[]): void;
-  setHandlerMethod(controller: ControllerPrototype, handler: Handler, method: HTTPMethod): void;
-  setHandlerSummary(controller: ControllerPrototype, handler: Handler, summary: string): void;
+  addControllerChain(
+    controller: ControllerPrototype,
+    chain: IChainHandler[],
+  ): void;
+  addControllerResponse(
+    controller: ControllerPrototype,
+    openApiResponse: OpenApiResponse,
+  ): void;
+  setHandlerPath(
+    controller: ControllerPrototype,
+    handler: Handler,
+    path: string,
+  ): void;
+  addHandlerChain(
+    controller: ControllerPrototype,
+    handler: Handler,
+    chain: IChainHandler[],
+  ): void;
+  setHandlerMethod(
+    controller: ControllerPrototype,
+    handler: Handler,
+    method: HTTPMethod,
+  ): void;
+  setHandlerSummary(
+    controller: ControllerPrototype,
+    handler: Handler,
+    summary: string,
+  ): void;
   setHandlerRequestBody(
     controller: ControllerPrototype,
     handler: Handler,
     openApiBody: OpenApiBody,
   ): void;
-  setHandlerParams(controller: ControllerPrototype, handler: Handler, openApiParams: ZodType): void;
-  setHandlerQuery(controller: ControllerPrototype, handler: Handler, openApiQuery: ZodType): void;
-  setHandlerCookie(controller: ControllerPrototype, handler: Handler, openApiCookie: ZodType): void;
-  setHandlerHeader(controller: ControllerPrototype, handler: Handler, openApiHeader: ZodType): void;
+  setHandlerParams(
+    controller: ControllerPrototype,
+    handler: Handler,
+    openApiParams: ZodType,
+  ): void;
+  setHandlerQuery(
+    controller: ControllerPrototype,
+    handler: Handler,
+    openApiQuery: ZodType,
+  ): void;
+  setHandlerCookie(
+    controller: ControllerPrototype,
+    handler: Handler,
+    openApiCookie: ZodType,
+  ): void;
+  setHandlerHeader(
+    controller: ControllerPrototype,
+    handler: Handler,
+    openApiHeader: ZodType,
+  ): void;
   addHandlerResponse(
     controller: ControllerPrototype,
     handler: Handler,

@@ -1,5 +1,5 @@
 export interface IUpdateCustomerCase {
-  execute(id: string, data: UpdateCustomerData): Promise<void>;
+  execute(userId: string, id: string, data: UpdateCustomerData): Promise<void>;
 }
 
 export type UpdateCustomerData = {

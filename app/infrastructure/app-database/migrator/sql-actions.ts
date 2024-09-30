@@ -11,19 +11,27 @@ export class SqlActions implements MigrationActions {
       .createTable('__migration')
       .ifNotExists()
       .addColumn('name', 'varchar', (cb) => cb.notNull().unique())
-      .addColumn('migrated_at', 'timestamp', (cb) => cb.notNull().defaultTo(sql`current_timestamp`))
+      .addColumn('migrated_at', 'timestamp', (cb) =>
+        cb.notNull().defaultTo(sql`current_timestamp`),
+      )
       .execute();
   }
 
   async getMigrationsNames(): Promise<string[]> {
-    const records = await this.db.selectFrom('__migration').select('name').execute();
+    const records = await this.db
+      .selectFrom('__migration')
+      .select('name')
+      .execute();
     return records.map((r) => r.name);
   }
 
   async migrateDown(migrations: Migration[]): Promise<void> {
     await this.db.transaction().execute(async (trx) => {
       for (const migration of migrations) {
-        await trx.deleteFrom('__migration').where('name', '=', migration.name).execute();
+        await trx
+          .deleteFrom('__migration')
+          .where('name', '=', migration.name)
+          .execute();
         await sql.raw(migration.sql).execute(trx);
       }
     });
@@ -32,7 +40,10 @@ export class SqlActions implements MigrationActions {
   async migrateUp(migrations: Migration[]): Promise<void> {
     await this.db.transaction().execute(async (trx) => {
       for (const migration of migrations) {
-        await trx.insertInto('__migration').values({ name: migration.name }).execute();
+        await trx
+          .insertInto('__migration')
+          .values({ name: migration.name })
+          .execute();
         await sql.raw(migration.sql).execute(trx);
       }
     });
